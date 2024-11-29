@@ -21,8 +21,11 @@ import java.util.List;
 @RequestMapping("/api/accounts")
 public class AccountController {
 
-    @Autowired
-    private AccountService accountService;
+    final AccountService accountService;
+
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     @GetMapping
     public List<Account> getAllAccounts() {
