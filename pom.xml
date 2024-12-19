@@ -19,7 +19,7 @@
     <properties>
         <java.version>23</java.version>
         <maven.compiler.proc>full</maven.compiler.proc>
-<!--        <hibernate.version>7.0.0.Beta1</hibernate.version>-->
+        <spring-ai.version>1.0.0-M4</spring-ai.version>
     </properties>
 
     <dependencies>
@@ -52,6 +52,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-anthropic-spring-boot-starter</artifactId>
+            <version>${spring-ai.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-ollama-spring-boot-starter</artifactId>
+            <version>${spring-ai.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -110,5 +123,16 @@
                 <version>3.12.1</version>
             </plugin>
         </plugins>
+
     </build>
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>
