@@ -4,6 +4,8 @@ import com.josetesan.poc.springcustomer.exceptions.ResourceNotFoundException;
 import com.josetesan.poc.springcustomer.model.Customer;
 import com.josetesan.poc.springcustomer.repository.CustomerRepository;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,5 +43,9 @@ public class CustomerService {
   public void deleteCustomer(Long id) {
     Customer customer = getCustomerById(id);
     customerRepository.delete(customer);
+  }
+
+  public Page<Customer> getAllCustomers(Pageable pageable) {
+    return customerRepository.findAll(pageable);
   }
 }
