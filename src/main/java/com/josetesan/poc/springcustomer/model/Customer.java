@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.List;
 import lombok.Data;
@@ -24,9 +25,9 @@ public class Customer {
   private String name;
   private int age;
 
-  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
   @JsonManagedReference
-  private List<Account> accounts;
+  private Account account;
 
   @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
   @JsonManagedReference

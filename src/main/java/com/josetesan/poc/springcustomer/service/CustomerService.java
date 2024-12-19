@@ -1,7 +1,6 @@
 package com.josetesan.poc.springcustomer.service;
 
 import com.josetesan.poc.springcustomer.exceptions.ResourceNotFoundException;
-import com.josetesan.poc.springcustomer.model.Account;
 import com.josetesan.poc.springcustomer.model.Customer;
 import com.josetesan.poc.springcustomer.repository.CustomerRepository;
 import java.util.List;
@@ -42,10 +41,5 @@ public class CustomerService {
   public void deleteCustomer(Long id) {
     Customer customer = getCustomerById(id);
     customerRepository.delete(customer);
-  }
-
-  public List<Account> getCustomerAccounts(Long customerId) {
-    Customer customer = getCustomerById(customerId);
-    return customer.getAccounts();
   }
 }

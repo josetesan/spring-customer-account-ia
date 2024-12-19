@@ -81,7 +81,7 @@ public class PurchaseService {
     Purchase createdPurchase = purchaseRepository.save(purchase);
 
     if (customer.getPurchases() == null) {
-      customer.setAccounts(new ArrayList<>());
+      customer.setPurchases(new ArrayList<>());
     }
     customer.getPurchases().add(purchase);
     customerRepository.save(customer);

@@ -6,7 +6,6 @@ import com.josetesan.poc.springcustomer.model.Customer;
 import com.josetesan.poc.springcustomer.repository.AccountRepository;
 import com.josetesan.poc.springcustomer.repository.CustomerRepository;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,20 +69,6 @@ public class AccountService {
   }
 
   /**
-   * Updates an existing account's details.
-   *
-   * @param id The ID of the account to update.
-   * @param accountDetails The updated account details.
-   * @return The updated account.
-   */
-  public Account updateAccount(Long id, Account accountDetails) {
-    Account account = getAccountById(id);
-    account.setName(accountDetails.getName());
-    account.setBalance(accountDetails.getBalance());
-    return accountRepository.save(account);
-  }
-
-  /**
    * Deletes an existing account by its ID.
    *
    * @param id The ID of the account to delete.
@@ -124,27 +109,10 @@ public class AccountService {
     Account savedAccount = accountRepository.save(account);
 
     // Update customer's account list
-    if (customer.getAccounts() == null) {
-      customer.setAccounts(new ArrayList<>());
-    }
-    customer.getAccounts().add(savedAccount);
+
+    customer.setAccount(savedAccount);
     customerRepository.save(customer);
 
     return savedAccount;
-  }
-
-  /**
-   * Retrieves all accounts associated with a specific customer.
-   *
-   * @param customerId The ID of the customer.
-   * @return A list of accounts associated with the customer.
-   */
-  public List<Account> getAccountsByCustomerId(Long customerId) {
-    Customer customer =
-        customerRepository
-            .findById(customerId)
-            .orElseThrow(
-                () -> new ResourceNotFoundException("Customer not found with id: " + customerId));
-    return customer.getAccounts();
   }
 }

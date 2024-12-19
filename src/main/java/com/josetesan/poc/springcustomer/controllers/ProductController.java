@@ -34,7 +34,7 @@ public class ProductController {
     return ResponseEntity.ok(Product);
   }
 
-  @PostMapping("/customer/{customerId}")
+  @PostMapping
   public Product createProduct(@RequestBody Product Product) {
     return productService.createProduct(Product);
   }

@@ -1,6 +1,5 @@
 package com.josetesan.poc.springcustomer.controllers;
 
-import com.josetesan.poc.springcustomer.model.Account;
 import com.josetesan.poc.springcustomer.model.Customer;
 import com.josetesan.poc.springcustomer.service.CustomerService;
 import java.util.List;
@@ -51,11 +50,5 @@ public class CustomerController {
   public ResponseEntity<?> deleteCustomer(@PathVariable Long id) {
     customerService.deleteCustomer(id);
     return ResponseEntity.ok().build();
-  }
-
-  @GetMapping("/{id}/accounts")
-  public ResponseEntity<List<Account>> getCustomerAccounts(@PathVariable Long id) {
-    List<Account> accounts = customerService.getCustomerAccounts(id);
-    return ResponseEntity.ok(accounts);
   }
 }

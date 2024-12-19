@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,15 +22,15 @@ public class PurchaseController {
   }
 
   // Create a new purchase
-  @PostMapping("/customer/{customerId}/product/{productId}")
-  public ResponseEntity<Purchase> createPurchase(
-      @PathVariable Long customerId, @PathVariable Long productId) {
-    Purchase savedPurchase = purchaseService.createPurchase(customerId, productId);
+  @PostMapping
+  public ResponseEntity<Purchase> createPurchase(@RequestBody PurchaseDTO purchaseDTO) {
+    Purchase savedPurchase =
+        purchaseService.createPurchase(purchaseDTO.customerId(), purchaseDTO.productId());
     return ResponseEntity.ok(savedPurchase);
   }
 
   // Get all purchases
-  @GetMapping("/")
+  @GetMapping
   public List<Purchase> getAllPurchases() {
     return purchaseService.getAllPurchases();
   }
@@ -40,4 +41,6 @@ public class PurchaseController {
     Purchase purchase = purchaseService.getPurchaseById(id);
     return ResponseEntity.ok(purchase);
   }
+
+  record PurchaseDTO(Long customerId, Long productId) {}
 }
