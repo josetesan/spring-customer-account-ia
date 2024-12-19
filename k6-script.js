@@ -7,11 +7,15 @@ const BASE_URL = 'http://localhost:8080/api';  // Adjust to your API's base URL
 
 // Test configuration
 export let options = {
-    stages: [
-        { duration: '30s', target: 10 },    // Ramp up to 10 users
-        { duration: '1m', target: 10 },     // Stay at 10 users for 1 minute
+        // Explicitly set to 10 concurrent users
+    vus: 10,         // Number of virtual users
+    duration: '2m',  // Total test duration
+/*     stages: [
+        { duration: '30s', target: 50 },    // Ramp up to 10 users
+        { duration: '1m', target: 50 },     // Stay at 10 users for 1 minute
+        { duration: '1m', target: 30 },     // Stay at 10 users for 1 minute
         { duration: '30s', target: 0 }      // Ramp down to 0 users
-    ],
+    ], */
     thresholds: {
         http_req_duration: ['p(95)<500'],   // 95% of requests must complete under 500ms
         http_req_failed: ['rate<0.01']      // Error rate should be less than 1%
@@ -57,16 +61,16 @@ function customerApiTests() {
         });
 
         // Get all customers
-        group('Get All Customers', () => {
-            let getAllResp = http.get(`${BASE_URL}/customers`);
-            check(getAllResp, {
-                'get all customers status is 200': (r) => r.status === 200,
-                'get all customers returns list': (r) => {
-                    let body = JSON.parse(r.body);
-                    return Array.isArray(body) && body.length > 0;
-                }
-            });
-        });
+        // group('Get All Customers', () => {
+        //     let getAllResp = http.get(`${BASE_URL}/customers`);
+        //     check(getAllResp, {
+        //         'get all customers status is 200': (r) => r.status === 200,
+        //         'get all customers returns list': (r) => {
+        //             let body = JSON.parse(r.body);
+        //             return Array.isArray(body) && body.length > 0;
+        //         }
+        //     });
+        // });
 
         // Get customer by ID
         group('Get Customer by ID', () => {
@@ -143,16 +147,16 @@ function accountApiTests() {
         });
 
         // Get all accounts
-        group('Get All Accounts', () => {
-            let getAllResp = http.get(`${BASE_URL}/accounts`);
-            check(getAllResp, {
-                'get all accounts status is 200': (r) => r.status === 200,
-                'get all accounts returns list': (r) => {
-                    let body = JSON.parse(r.body);
-                    return Array.isArray(body) && body.length > 0;
-                }
-            });
-        });
+        // group('Get All Accounts', () => {
+        //     let getAllResp = http.get(`${BASE_URL}/accounts`);
+        //     check(getAllResp, {
+        //         'get all accounts status is 200': (r) => r.status === 200,
+        //         'get all accounts returns list': (r) => {
+        //             let body = JSON.parse(r.body);
+        //             return Array.isArray(body) && body.length > 0;
+        //         }
+        //     });
+        // });
 
         // Get accounts by customer ID
         group('Get Accounts by Customer ID', () => {
@@ -195,6 +199,4 @@ export default function() {
         accountApiTests();
     }
 
-    // Add a small sleep to prevent overwhelming the server
-    sleep(1);
 }

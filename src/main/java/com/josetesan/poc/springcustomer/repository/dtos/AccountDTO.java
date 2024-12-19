@@ -1,13 +1,12 @@
 package com.josetesan.poc.springcustomer.repository.dtos;
 
-import lombok.Data;
-
 import java.math.BigDecimal;
+import lombok.Data;
 
 @Data
 public class AccountDTO {
-    private Long id;
-    private String name;
-    private BigDecimal balance;
-    private Long customerId;
+  private Long id;
+  private String name;
+  private BigDecimal balance;
+  private Long customerId;
 }
