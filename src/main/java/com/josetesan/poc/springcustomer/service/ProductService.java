@@ -1,9 +1,12 @@
 package com.josetesan.poc.springcustomer.service;
 
+import com.josetesan.poc.springcustomer.controllers.dtos.ProductDTO;
 import com.josetesan.poc.springcustomer.exceptions.ResourceNotFoundException;
 import com.josetesan.poc.springcustomer.model.Product;
 import com.josetesan.poc.springcustomer.repository.ProductRepository;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,8 +53,8 @@ public class ProductService {
    * @param product The Product details to create.
    * @return The created Product.
    */
-  public Product createProduct(Product product) {
-    return productRepository.save(product);
+  public Product createProduct(ProductDTO product) {
+    return productRepository.save(new Product(product.getName(), product.getPrice()));
   }
 
   /**
@@ -75,5 +78,9 @@ public class ProductService {
     Product product = getProductById(id);
     product.setPrice(newPrice);
     return productRepository.save(product);
+  }
+
+  public Page<Product> getAllProducts(Pageable pageable) {
+    return productRepository.findAll(pageable);
   }
 }

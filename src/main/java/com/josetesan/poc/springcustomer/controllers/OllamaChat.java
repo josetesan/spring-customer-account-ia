@@ -1,4 +1,4 @@
-package com.josetesan.poc.springcustomer.ia;
+package com.josetesan.poc.springcustomer.controllers;
 
 import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.DEFAULT_CHAT_MEMORY_CONVERSATION_ID;
 
@@ -39,17 +39,21 @@ public class OllamaChat {
                           For customers or purchases - provide the correct data.
                           """)
             .defaultAdvisors(
+                //                new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults()),
+                // // RAG advisor
                 // Chat memory helps us keep context when using the chatbot for up to 10 previous
                 // messages.
                 new MessageChatMemoryAdvisor(
                     chatMemory, DEFAULT_CHAT_MEMORY_CONVERSATION_ID, 10), // CHAT MEMORY
                 new SimpleLoggerAdvisor())
+            .defaultFunctions("listProducts", "listCustomers", "createProduct")
             .build();
   }
 
   @PostMapping("/chat")
   public String exchange(@RequestBody String query) {
     // All chatbot messages go through this endpoint and are passed to the LLM
-    return this.chatClient.prompt().user(u -> u.text(query)).call().content();
+    var text = query.replaceAll("'","");
+    return this.chatClient.prompt().user(u -> u.text(text)).call().content();
   }
 }

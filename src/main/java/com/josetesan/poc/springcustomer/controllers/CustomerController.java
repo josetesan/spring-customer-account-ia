@@ -1,5 +1,6 @@
 package com.josetesan.poc.springcustomer.controllers;
 
+import com.josetesan.poc.springcustomer.controllers.dtos.CustomerDTO;
 import com.josetesan.poc.springcustomer.model.Customer;
 import com.josetesan.poc.springcustomer.service.CustomerService;
 import java.util.List;
@@ -35,7 +36,7 @@ public class CustomerController {
   }
 
   @PostMapping
-  public Customer createCustomer(@RequestBody Customer customer) {
+  public Customer createCustomer(@RequestBody CustomerDTO customer) {
     return customerService.createCustomer(customer);
   }
 

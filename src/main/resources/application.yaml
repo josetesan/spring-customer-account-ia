@@ -1,0 +1,39 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+spring:
+  ai:
+    ollama:
+      chat:
+        model: "llama3.2"
+      embedding:
+        model: nomic-embed-text
+    vectorstore:
+      qdrant:
+         initialize-schema: true
+         collection-name: customers
+
+  threads:
+    virtual:
+      enabled: 'true'
+  jpa:
+    show-sql: 'false'
+    hibernate:
+      ddl-auto: update
+  datasource:
+    password: password
+    username: josete
+    hikari:
+      maximum-pool-size: '10'
+      minimum-idle: '5'
+    url: jdbc:postgresql://192.168.1.40:5432/spring
+logging:
+  level:
+    org:
+      springframework:
+        ai:
+          chat:
+            client:
+              advisor: DEBUG

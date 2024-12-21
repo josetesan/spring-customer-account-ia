@@ -1,6 +1,9 @@
-package com.josetesan.poc.springcustomer.ia;
+package com.josetesan.poc.springcustomer.configuration;
 
+import com.josetesan.poc.springcustomer.controllers.dtos.CustomerDTO;
+import com.josetesan.poc.springcustomer.controllers.dtos.ProductDTO;
 import com.josetesan.poc.springcustomer.model.Customer;
+import com.josetesan.poc.springcustomer.model.Product;
 import com.josetesan.poc.springcustomer.service.AccountService;
 import com.josetesan.poc.springcustomer.service.CustomerService;
 import com.josetesan.poc.springcustomer.service.ProductService;
@@ -35,6 +38,29 @@ public class AIDataProvider {
     log.info("Retrieving all customers");
     Pageable pageable = PageRequest.of(0, 100);
     Page<Customer> customerPage = customerService.getAllCustomers(pageable);
-    return new AiConfiguration.CustomersResponse(customerPage.getContent());
+    var list =
+        customerPage.getContent().stream()
+            .map(customer -> new CustomerDTO(customer.getName(), customer.getAge()))
+            .toList();
+    return new AiConfiguration.CustomersResponse(list);
+  }
+
+  public AiConfiguration.ProductsResponse getAllProducts() {
+    log.info("Retrieving all products");
+    Pageable pageable = PageRequest.of(0, 100);
+    Page<Product> productsPage = productService.getAllProducts(pageable);
+    var list =
+        productsPage.stream()
+            .map(product -> ProductDTO.of(product.getName(), String.valueOf(product.getPrice())))
+            .toList();
+    return new AiConfiguration.ProductsResponse(list);
+  }
+
+  public AiConfiguration.ProductResponse createProduct(
+      AiConfiguration.ProductRequest productRequest) {
+    log.info("Creating a product {}", productRequest.product());
+    var created = this.productService.createProduct(productRequest.product());
+    return new AiConfiguration.ProductResponse(
+        ProductDTO.of(created.getName(), String.valueOf(created.getPrice())));
   }
 }

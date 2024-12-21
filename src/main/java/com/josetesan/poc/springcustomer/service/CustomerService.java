@@ -1,5 +1,6 @@
 package com.josetesan.poc.springcustomer.service;
 
+import com.josetesan.poc.springcustomer.controllers.dtos.CustomerDTO;
 import com.josetesan.poc.springcustomer.exceptions.ResourceNotFoundException;
 import com.josetesan.poc.springcustomer.model.Customer;
 import com.josetesan.poc.springcustomer.repository.CustomerRepository;
@@ -29,8 +30,8 @@ public class CustomerService {
         .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id: " + id));
   }
 
-  public Customer createCustomer(Customer customer) {
-    return customerRepository.save(customer);
+  public Customer createCustomer(CustomerDTO customer) {
+    return customerRepository.save(new Customer(customer.name(), customer.age()));
   }
 
   public Customer updateCustomer(Long id, Customer customerDetails) {
