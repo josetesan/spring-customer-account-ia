@@ -51,16 +51,17 @@ public class AIDataProvider {
     Page<Product> productsPage = productService.getAllProducts(pageable);
     var list =
         productsPage.stream()
-            .map(product -> ProductDTO.of(product.getName(), String.valueOf(product.getPrice())))
+            .map(product -> new ProductDTO(product.getName(), product.getPrice()))
             .toList();
     return new AiConfiguration.ProductsResponse(list);
   }
 
   public AiConfiguration.ProductResponse createProduct(
-      AiConfiguration.ProductRequest productRequest) {
-    log.info("Creating a product {}", productRequest.product());
-    var created = this.productService.createProduct(productRequest.product());
+      AiConfiguration.CreateProductRequest productRequest) {
+    log.info("Creating a product {}", productRequest);
+    ProductDTO productDTO = new ProductDTO(productRequest.name(), productRequest.price());
+    var created = this.productService.createProduct(productDTO);
     return new AiConfiguration.ProductResponse(
-        ProductDTO.of(created.getName(), String.valueOf(created.getPrice())));
+        new ProductDTO(created.getName(), created.getPrice()));
   }
 }

@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.function.Function;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
+import org.springframework.ai.embedding.EmbeddingModel;
+import org.springframework.ai.vectorstore.SimpleVectorStore;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
@@ -16,6 +19,11 @@ public class AiConfiguration {
   @Bean
   public ChatMemory chatMemory() {
     return new InMemoryChatMemory();
+  }
+
+  @Bean
+  VectorStore vectorStore(EmbeddingModel embeddingModel) {
+    return new SimpleVectorStore(embeddingModel);
   }
 
   // The @Description annotation helps the model understand when to call the function
@@ -33,17 +41,20 @@ public class AiConfiguration {
 
   @Bean
   @Description("Create a Product")
-  public Function<ProductRequest, ProductResponse> createProduct(AIDataProvider aiDataProvider) {
+  public Function<CreateProductRequest, ProductResponse> createProduct(
+      AIDataProvider aiDataProvider) {
     return aiDataProvider::createProduct;
   }
 
-  public record CustomerRequest(CustomerDTO customer) {}
+  public record CustomerRequest() {}
   ;
 
   public record CustomersResponse(List<CustomerDTO> customers) {}
   ;
 
-  public record ProductRequest(ProductDTO product) {}
+  public record ProductRequest() {}
+
+  public record CreateProductRequest(String name, Double price) {}
 
   public record ProductResponse(ProductDTO product) {}
 

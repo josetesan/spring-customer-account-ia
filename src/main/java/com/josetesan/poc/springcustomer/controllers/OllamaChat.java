@@ -6,6 +6,7 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ public class OllamaChat {
   // checkout the interfaces in the core spring ai package.
   private final ChatClient chatClient;
 
-  public OllamaChat(ChatClient.Builder builder, ChatMemory chatMemory) {
+  public OllamaChat(ChatClient.Builder builder, ChatMemory chatMemory, VectorStore vectorStore) {
 
     // @formatter:off
     this.chatClient =
@@ -39,7 +40,7 @@ public class OllamaChat {
                           For customers or purchases - provide the correct data.
                           """)
             .defaultAdvisors(
-                //                new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults()),
+                // new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults()),
                 // // RAG advisor
                 // Chat memory helps us keep context when using the chatbot for up to 10 previous
                 // messages.
@@ -53,7 +54,7 @@ public class OllamaChat {
   @PostMapping("/chat")
   public String exchange(@RequestBody String query) {
     // All chatbot messages go through this endpoint and are passed to the LLM
-    var text = query.replaceAll("'","");
+    var text = query.replaceAll("'", "");
     return this.chatClient.prompt().user(u -> u.text(text)).call().content();
   }
 }
