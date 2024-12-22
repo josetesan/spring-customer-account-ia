@@ -32,6 +32,7 @@ public class Purchase {
   @JsonBackReference
   private Product product;
 
+  private Integer amount;
   private ZonedDateTime purchaseDate;
   private Double purchasePrice;
 }

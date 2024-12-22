@@ -25,7 +25,7 @@ public class PurchaseController {
   @PostMapping
   public ResponseEntity<Purchase> createPurchase(@RequestBody PurchaseDTO purchaseDTO) {
     Purchase savedPurchase =
-        purchaseService.createPurchase(purchaseDTO.customerId(), purchaseDTO.productId());
+        purchaseService.createPurchase(purchaseDTO.customerId(), purchaseDTO.productId(),purchaseDTO.amount());
     return ResponseEntity.ok(savedPurchase);
   }
 
@@ -42,5 +42,5 @@ public class PurchaseController {
     return ResponseEntity.ok(purchase);
   }
 
-  record PurchaseDTO(Long customerId, Long productId) {}
+  record PurchaseDTO(Long customerId, Long productId,Integer amount) {}
 }

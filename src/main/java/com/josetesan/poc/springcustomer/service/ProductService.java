@@ -83,4 +83,10 @@ public class ProductService {
   public Page<Product> getAllProducts(Pageable pageable) {
     return productRepository.findAll(pageable);
   }
+
+  public Product getProductByName(String name) {
+    return productRepository
+        .findByNameEqualsIgnoreCase(name)
+        .orElseThrow(() -> new ResourceNotFoundException("Customer not found with name: " + name));
+  }
 }

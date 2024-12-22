@@ -2,6 +2,7 @@ package com.josetesan.poc.springcustomer.configuration;
 
 import com.josetesan.poc.springcustomer.controllers.dtos.CustomerDTO;
 import com.josetesan.poc.springcustomer.controllers.dtos.ProductDTO;
+import com.josetesan.poc.springcustomer.controllers.dtos.PurchaseDTO;
 import java.util.List;
 import java.util.function.Function;
 import org.springframework.ai.chat.memory.ChatMemory;
@@ -46,6 +47,13 @@ public class AiConfiguration {
     return aiDataProvider::createProduct;
   }
 
+  @Bean
+  @Description("A customer purchases a product")
+  public Function<CreatePurchaseRequest, CreatePurchaseResponse> createPurchase(
+      AIDataProvider aiDataProvider) {
+    return aiDataProvider::createPurchase;
+  }
+
   public record CustomerRequest() {}
   ;
 
@@ -59,5 +67,11 @@ public class AiConfiguration {
   public record ProductResponse(ProductDTO product) {}
 
   public record ProductsResponse(List<ProductDTO> products) {}
+  ;
+
+  public record CreatePurchaseRequest(String customerName, String productName,Integer amount) {}
+  ;
+
+  public record CreatePurchaseResponse(PurchaseDTO purchaseDTO) {}
   ;
 }

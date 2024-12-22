@@ -30,6 +30,13 @@ public class CustomerService {
         .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id: " + id));
   }
 
+  public Customer getCustomerByName(String name) {
+    return customerRepository.findByNameEquals(name).stream()
+        .filter(customer -> customer.getName().equals(name))
+        .toList()
+        .getFirst();
+  }
+
   public Customer createCustomer(CustomerDTO customer) {
     return customerRepository.save(new Customer(customer.name(), customer.age()));
   }

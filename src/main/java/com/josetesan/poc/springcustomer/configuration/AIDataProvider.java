@@ -2,6 +2,7 @@ package com.josetesan.poc.springcustomer.configuration;
 
 import com.josetesan.poc.springcustomer.controllers.dtos.CustomerDTO;
 import com.josetesan.poc.springcustomer.controllers.dtos.ProductDTO;
+import com.josetesan.poc.springcustomer.controllers.dtos.PurchaseDTO;
 import com.josetesan.poc.springcustomer.model.Customer;
 import com.josetesan.poc.springcustomer.model.Product;
 import com.josetesan.poc.springcustomer.service.AccountService;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -56,6 +58,7 @@ public class AIDataProvider {
     return new AiConfiguration.ProductsResponse(list);
   }
 
+  @Transactional
   public AiConfiguration.ProductResponse createProduct(
       AiConfiguration.CreateProductRequest productRequest) {
     log.info("Creating a product {}", productRequest);
@@ -63,5 +66,21 @@ public class AIDataProvider {
     var created = this.productService.createProduct(productDTO);
     return new AiConfiguration.ProductResponse(
         new ProductDTO(created.getName(), created.getPrice()));
+  }
+
+  @Transactional
+  public AiConfiguration.CreatePurchaseResponse createPurchase(
+      AiConfiguration.CreatePurchaseRequest createPurchaseRequest) {
+    log.info("Creating a purchase {}", createPurchaseRequest);
+    var customer = this.customerService.getCustomerByName(createPurchaseRequest.customerName());
+    var product = this.productService.getProductByName(createPurchaseRequest.productName());
+    var created = this.purchaseService.createPurchase(customer.getId(), product.getId(),createPurchaseRequest.amount());
+    PurchaseDTO purchaseDTO =
+        new PurchaseDTO(
+            createPurchaseRequest.customerName(),
+            createPurchaseRequest.productName(),
+            createPurchaseRequest.amount(),
+            created.getPurchasePrice());
+    return new AiConfiguration.CreatePurchaseResponse(purchaseDTO);
   }
 }

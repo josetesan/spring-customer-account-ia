@@ -47,7 +47,7 @@ public class OllamaChat {
                 new MessageChatMemoryAdvisor(
                     chatMemory, DEFAULT_CHAT_MEMORY_CONVERSATION_ID, 10), // CHAT MEMORY
                 new SimpleLoggerAdvisor())
-            .defaultFunctions("listProducts", "listCustomers", "createProduct")
+            .defaultFunctions("listProducts", "listCustomers", "createProduct", "createPurchase")
             .build();
   }
 

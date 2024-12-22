@@ -59,7 +59,7 @@ public class PurchaseService {
    * @param customerId The ID of the customer associated with the account.
    * @return The created account.
    */
-  public Purchase createPurchase(Long customerId, Long productId) {
+  public Purchase createPurchase(Long customerId, Long productId,Integer amount) {
 
     Customer customer =
         customerRepository
@@ -77,6 +77,7 @@ public class PurchaseService {
     purchase.setPurchaseDate(ZonedDateTime.now());
     purchase.setProduct(product);
     purchase.setCustomer(customer);
+    purchase.setAmount(amount);
     purchase.setPurchasePrice(product.getPrice());
     Purchase createdPurchase = purchaseRepository.save(purchase);
 
