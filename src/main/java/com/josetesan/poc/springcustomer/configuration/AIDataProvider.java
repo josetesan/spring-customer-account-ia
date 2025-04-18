@@ -74,7 +74,9 @@ public class AIDataProvider {
     log.info("Creating a purchase {}", createPurchaseRequest);
     var customer = this.customerService.getCustomerByName(createPurchaseRequest.customerName());
     var product = this.productService.getProductByName(createPurchaseRequest.productName());
-    var created = this.purchaseService.createPurchase(customer.getId(), product.getId(),createPurchaseRequest.amount());
+    var created =
+        this.purchaseService.createPurchase(
+            customer.getId(), product.getId(), createPurchaseRequest.amount());
     PurchaseDTO purchaseDTO =
         new PurchaseDTO(
             createPurchaseRequest.customerName(),

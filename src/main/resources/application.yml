@@ -9,25 +9,29 @@ spring:
       chat:
         model: "llama3.2"
       embedding:
-        model: nomic-embed-text
+        model: bge-m3
     vectorstore:
       qdrant:
-         initialize-schema: true
-         collection-name: customers
+        initialize-schema: true
+        collection-name: customers
+        host: 192.168.1.42
+    chat:
+      client:
+        enabled: true
   threads:
     virtual:
       enabled: 'true'
   jpa:
     show-sql: 'true'
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
   datasource:
     password: password
     username: josete
     hikari:
       maximum-pool-size: '10'
       minimum-idle: '5'
-    url: jdbc:postgresql://192.168.1.40:5432/spring
+    url: jdbc:postgresql://192.168.1.40:5432/customers
 logging:
   level:
     org:

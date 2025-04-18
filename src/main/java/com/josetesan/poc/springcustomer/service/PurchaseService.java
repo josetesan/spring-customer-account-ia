@@ -59,7 +59,7 @@ public class PurchaseService {
    * @param customerId The ID of the customer associated with the account.
    * @return The created account.
    */
-  public Purchase createPurchase(Long customerId, Long productId,Integer amount) {
+  public Purchase createPurchase(Long customerId, Long productId, Integer amount) {
 
     Customer customer =
         customerRepository

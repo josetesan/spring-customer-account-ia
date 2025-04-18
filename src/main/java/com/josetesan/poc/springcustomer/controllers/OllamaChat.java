@@ -40,14 +40,13 @@ public class OllamaChat {
                           For customers or purchases - provide the correct data.
                           """)
             .defaultAdvisors(
-                // new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults()),
                 // // RAG advisor
                 // Chat memory helps us keep context when using the chatbot for up to 10 previous
                 // messages.
                 new MessageChatMemoryAdvisor(
                     chatMemory, DEFAULT_CHAT_MEMORY_CONVERSATION_ID, 10), // CHAT MEMORY
                 new SimpleLoggerAdvisor())
-            .defaultFunctions("listProducts", "listCustomers", "createProduct", "createPurchase")
+            .defaultTools("listProducts", "listCustomers", "createProduct", "createPurchase")
             .build();
   }
 
