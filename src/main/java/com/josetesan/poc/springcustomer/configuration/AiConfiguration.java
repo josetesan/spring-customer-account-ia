@@ -6,7 +6,7 @@ import com.josetesan.poc.springcustomer.controllers.dtos.PurchaseDTO;
 import java.util.List;
 import java.util.function.Function;
 import org.springframework.ai.chat.memory.ChatMemory;
-import org.springframework.ai.chat.memory.InMemoryChatMemory;
+import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
@@ -16,7 +16,7 @@ public class AiConfiguration {
 
   @Bean
   public ChatMemory chatMemory() {
-    return new InMemoryChatMemory();
+    return MessageWindowChatMemory.builder().maxMessages(100).build();
   }
 
   // The @Description annotation helps the model understand when to call the function
